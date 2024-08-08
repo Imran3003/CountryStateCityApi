@@ -20,7 +20,7 @@ services:
     container_name: country-state-city-database
 
   springboot-app:
-    image: imran003/country_state_city_api
+    image: imran003/country_state_city_api:v1
     ports:
       - "8080:8080"
     environment:
