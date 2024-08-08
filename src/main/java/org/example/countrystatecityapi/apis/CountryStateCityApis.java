@@ -1,6 +1,7 @@
 package org.example.countrystatecityapi.apis;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @created Jul 31, 2024
  */
 @RestController
+@CrossOrigin
 public class CountryStateCityApis
 {
     @Autowired
