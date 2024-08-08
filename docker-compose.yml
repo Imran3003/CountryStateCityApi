@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: CountryStateCity
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: password1
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    container_name: country-state-city-database
+
+  springboot-app:
+    image: imran003/country_state_city_api
+    ports:
+      - "8080:8080"
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: user1
+      MYSQL_PASSWORD: password1
+      MYSQL_DB: CountryStateCity
+      MYSQL_PORT: 3306
+    container_name: country-state-city-container
+
+
+volumes:
+  mysql-data:
