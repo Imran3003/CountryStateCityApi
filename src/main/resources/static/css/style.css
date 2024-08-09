@@ -1,0 +1,109 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 95%;
+    margin: 0 auto;
+    padding-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #5a67d8;
+    padding: 15px 20px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.header h1 {
+    color: white;
+    margin: 0;
+}
+
+.github-link {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.github-link:hover {
+    color: yellow;
+}
+
+.github-link svg {
+    width: 24px;
+    flex-shrink: 0;
+    margin-right: 6px;
+    position: relative;
+    top: 5px;
+    padding-right: 2px;
+}
+
+.search-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.box {
+    flex: 1;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 0 10px; /* Even space on both sides of the box */
+}
+
+.box:first-child {
+    margin-left: 0; /* Remove left margin for the first box */
+}
+
+.box:last-child {
+    margin-right: 0; /* Remove right margin for the last box */
+}
+
+.box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.box input {
+    width: calc(100% - 20px); /* Adjust width to provide padding space */
+    padding: 10px;
+    margin: 10px 0; /* Add margin to provide space inside the div */
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+
+.box input::placeholder {
+    color: #bbb;
+}
+
+/* Add custom styles for Select2 elements here, if needed */
+.select-box {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+#dfs
+{
+    visibility: hidden;
+}
