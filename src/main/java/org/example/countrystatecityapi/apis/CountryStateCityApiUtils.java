@@ -1,5 +1,6 @@
 package org.example.countrystatecityapi.apis;
 
+import org.example.countrystatecityapi.models.LocationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -238,6 +239,26 @@ public class CountryStateCityApiUtils
         columnData.put("updated_at", rs.getString("updated_at"));
         columnData.put("flag", rs.getString("flag"));
         columnData.put("wikiDataId", rs.getString("wikiDataId"));
+    }
+
+    public LocationData getLocation(String countryName, String stateName, String cityName)
+    {
+        String query = "SELECT c.latitude, c.longitude " +
+                "FROM cities c " +
+                "JOIN states s ON c.state_id = s.id " +
+                "JOIN countries co ON s.country_id = co.id " +
+                "WHERE (co.name = ? AND s.name = ? AND c.name = ?) " +
+                "   OR (co.iso2 = ? AND s.iso2 = ? AND c.name = ?) " +
+                "ORDER BY c.name ASC";
+
+        return jdbcTemplate.queryForObject(query,
+                new Object[]{countryName, stateName, cityName, countryName, stateName, cityName},
+                (rs, rowNum) -> {
+                    LocationData locationData = new LocationData();
+                    locationData.setLat(rs.getString("latitude"));
+                    locationData.setLng(rs.getString("longitude"));
+                    return locationData;
+                });
     }
 
 }

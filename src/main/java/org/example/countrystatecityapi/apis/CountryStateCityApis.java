@@ -1,5 +1,6 @@
 package org.example.countrystatecityapi.apis;
 
+import org.example.countrystatecityapi.models.LocationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,6 +81,19 @@ public class CountryStateCityApis
             @PathVariable String stateName) {
 
        return countryStateCityApiUtils.getCitiesNamesByCountryAndState(countryName,stateName);
+    }
+
+    @GetMapping("/{countryName}/{stateName}/{cityName}/location")
+    public LocationData getLatLong(
+            @PathVariable String countryName,
+            @PathVariable String stateName,
+            @PathVariable String cityName) {
+
+        LocationData location = countryStateCityApiUtils.getLocation(countryName, stateName, cityName);
+
+        System.out.println("location = " + location);
+
+        return location;
     }
 }
 

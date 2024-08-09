@@ -80,21 +80,6 @@ body {
     margin-bottom: 10px;
 }
 
-.box input {
-    width: calc(100% - 20px); /* Adjust width to provide padding space */
-    padding: 10px;
-    margin: 10px 0; /* Add margin to provide space inside the div */
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-
-.box input::placeholder {
-    color: #bbb;
-}
-
-/* Add custom styles for Select2 elements here, if needed */
 .select-box {
     width: 100%;
     padding: 10px;
@@ -103,7 +88,22 @@ body {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
-#dfs
+
+.button-container {
+    margin-top: 30px;
+}
+
+#map {
+    height: 300px;
+    width: 1000px;
+    margin-top: 20px;
+}
+
+button
 {
-    visibility: hidden;
+    width: 150px;
+    height: 30px;
+    border-radius: 10px;
+    background-color: green;
+    color: white;
 }
