@@ -15,7 +15,7 @@ function showOnGeoMap(lat, lng, zoomLevel) {
         console.log('Previous marker removed');
     }
 
-    currentMarker = L.marker([lat, lng]).addTo(map).bindPopup('Selected Location').openPopup();
+    currentMarker = L.marker([lat, lng]).addTo(map);
     console.log('New marker added at:', lat, lng);
     map.setView([lat, lng], zoomLevel); // Set map view to the selected location with the appropriate zoom level
 }
