@@ -243,6 +243,19 @@ public class CountryStateCityApiUtils
 
     public LocationData getLocation(String countryName, String stateName, String cityName)
     {
+        if (cityName.equals("NO_DATA"))
+        {
+            if (stateName.equals("NO_DATA"))
+                return getLocationDataForCountry(countryName);
+            else
+                return getLocationDataForState(countryName,stateName);
+        }
+
+        return getLocationData(countryName, stateName, cityName);
+    }
+
+    private LocationData getLocationData(String countryName, String stateName, String cityName)
+    {
         String query = "SELECT c.latitude, c.longitude " +
                 "FROM cities c " +
                 "JOIN states s ON c.state_id = s.id " +
@@ -253,6 +266,38 @@ public class CountryStateCityApiUtils
 
         return jdbcTemplate.queryForObject(query,
                 new Object[]{countryName, stateName, cityName, countryName, stateName, cityName},
+                (rs, rowNum) -> {
+                    LocationData locationData = new LocationData();
+                    locationData.setLat(rs.getString("latitude"));
+                    locationData.setLng(rs.getString("longitude"));
+                    return locationData;
+                });
+    }
+
+    private LocationData getLocationDataForCountry(String countryName) {
+
+        String query = "SELECT latitude, longitude from countries where name = ?";
+
+        return jdbcTemplate.queryForObject(query,
+                new Object[]{countryName},
+                (rs, rowNum) -> {
+                    LocationData locationData = new LocationData();
+                    locationData.setLat(rs.getString("latitude"));
+                    locationData.setLng(rs.getString("longitude"));
+                    return locationData;
+                });
+    }
+
+    private LocationData getLocationDataForState(String countryName,String stateName) {
+
+        String query = "SELECT s.latitude, s.longitude " +
+                "FROM states s " +
+                "JOIN countries co ON s.country_id = co.id " +
+                "WHERE (co.name = ? AND s.name = ?) " +
+                "   OR (co.iso2 = ? AND s.iso2 = ? ) ";
+
+        return jdbcTemplate.queryForObject(query,
+                new Object[]{countryName, stateName, countryName, stateName},
                 (rs, rowNum) -> {
                     LocationData locationData = new LocationData();
                     locationData.setLat(rs.getString("latitude"));

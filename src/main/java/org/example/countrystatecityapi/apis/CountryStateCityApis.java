@@ -91,8 +91,6 @@ public class CountryStateCityApis
 
         LocationData location = countryStateCityApiUtils.getLocation(countryName, stateName, cityName);
 
-        System.out.println("location = " + location);
-
         return location;
     }
 }

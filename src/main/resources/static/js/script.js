@@ -1,4 +1,5 @@
 let map;
+let currentMarker;
 
 function initGeoMap() {
     map = L.map('map').setView([51.505, -0.09], 2); // Initialize map with a default view
@@ -8,9 +9,15 @@ function initGeoMap() {
     }).addTo(map);
 }
 
-function showOnGeoMap(lat, lng) {
-    map.setView([lat, lng], 10); // Set map view to the selected location
-    L.marker([lat, lng]).addTo(map).bindPopup('Selected Location').openPopup();
+function showOnGeoMap(lat, lng, zoomLevel) {
+    if (currentMarker) {
+        map.removeLayer(currentMarker);
+        console.log('Previous marker removed');
+    }
+
+    currentMarker = L.marker([lat, lng]).addTo(map).bindPopup('Selected Location').openPopup();
+    console.log('New marker added at:', lat, lng);
+    map.setView([lat, lng], zoomLevel); // Set map view to the selected location with the appropriate zoom level
 }
 
 $(document).ready(async () => {
@@ -27,9 +34,11 @@ $(document).ready(async () => {
                 populateSelect('#state-select', states);
                 $('#state-select').prop('disabled', false);
                 $('#city-select').prop('disabled', true).empty().append('<option value="">Search Cities...</option>');
+                $('#show-map-button').prop('disabled', false).removeClass('disabled').addClass('enabled');
             } else {
                 $('#state-select').prop('disabled', true).empty().append('<option value="">Search States...</option>');
                 $('#city-select').prop('disabled', true).empty().append('<option value="">Search Cities...</option>');
+                $('#show-map-button').prop('disabled', true).removeClass('enabled').addClass('disabled');
             }
         });
 
@@ -46,18 +55,27 @@ $(document).ready(async () => {
         });
 
         $('#city-select').select2().on('change', function () {
-            const city = $(this).val();
-            $('#show-map-button').prop('disabled', !city);
+            // No change needed here as button is controlled by country selection
         });
 
         $('#show-map-button').on('click', async function () {
-            const country = $('#country-select').val();
-            const state = $('#state-select').val();
-            const city = $('#city-select').val();
+            let country = $('#country-select').val();
+            let state = $('#state-select').val();
+            let city = $('#city-select').val();
+
             try {
+                if (state === "")
+                    state = "NO_DATA";
+                if (city === "")
+                    city = "NO_DATA";
+
                 const locationData = await fetchFromApi(`/${country}/${state}/${city}/location`);
                 if (locationData && locationData.lat && locationData.lng) {
-                    showOnGeoMap(locationData.lat, locationData.lng);
+                    let zoomLevel = 3; // Default zoom level for country only
+                    if (state !== "NO_DATA") zoomLevel = 5; // Zoom level for country and state
+                    if (city !== "NO_DATA") zoomLevel = 10; // Zoom level for country, state, and city
+
+                    showOnGeoMap(locationData.lat, locationData.lng, zoomLevel);
                 } else {
                     console.error('Could not retrieve location data for the selected city.');
                 }
